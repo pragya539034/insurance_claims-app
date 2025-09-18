@@ -1,77 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>All Claims</title>
+  <title>Claims</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-  <style>
-    body { display: flex; height: 100vh; overflow: hidden; font-family: Arial, sans-serif; }
-    .sidebar { width: 250px; background: #f8f9fa; padding: 20px; }
-    .content { flex: 1; display: flex; flex-direction: column; }
-    .topbar { background: #ffffff; padding: 10px 20px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
-    .main { flex: 1; padding: 20px; overflow-y: auto; }
-    h1 { font-weight: bold; }
-  </style>
 </head>
-<body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h5>Insurance Claims</h5>
-    <ul class="nav flex-column">
-      <li class="nav-item"><a class="nav-link" href="index.html">📊 Dashboard</a></li>
-      <li class="nav-item"><a class="nav-link" href="index.html">📝 New Claim</a></li>
-      <li class="nav-item"><a class="nav-link active" href="claims.html">📂 Claims</a></li>
-      <li class="nav-item"><a class="nav-link" href="reports.html">📑 Reports</a></li>
-    </ul>
-  </div>
-
-  <!-- Content -->
-  <div class="content">
-    <div class="topbar">
-      <h1 class="mb-0">All Claims</h1>
-    </div>
-
-    <div class="main">
-      <table class="table table-bordered table-hover" id="claimsTable">
-        <thead class="table-light">
-          <tr>
-            <th>Claim ID</th>
-            <th>Policy Number</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-
-  <script>
-    function loadClaims() {
-      let claims = JSON.parse(localStorage.getItem("claims")) || [];
-      let tbody = document.querySelector("#claimsTable tbody");
-      tbody.innerHTML = "";
-
-      if (claims.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='5' class='text-center'>No claims yet.</td></tr>";
-        return;
-      }
-
-      claims.forEach(c => {
-        let row = `<tr>
-          <td>${c.id}</td>
-          <td>${c.policy}</td>
-          <td>${c.type}</td>
-          <td>$${c.amount}</td>
-          <td><span class="badge bg-warning">${c.status}</span></td>
-        </tr>`;
-        tbody.innerHTML += row;
-      });
-    }
-    window.onload = loadClaims;
-  </script>
+<body class="p-4">
+  <h1>All Claims</h1>
+  <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mb-3">🏠 Back to Dashboard</a>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Policy Number</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for claim in claims %}
+        <tr>
+          <td>{{ claim.policy_number }}</td>
+          <td>{{ claim.claim_type }}</td>
+          <td>{{ claim.amount }}</td>
+          <td>{{ claim.description }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="4" class="text-center">No claims submitted yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </body>
 </html>
