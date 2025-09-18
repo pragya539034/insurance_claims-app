@@ -22,10 +22,6 @@
 
 >HTML5 & CSS → Structure and styling of web pages.
 
-># Steps Included
-> structure
-<img width="230" height="168" alt="image" src="https://github.com/user-attachments/assets/5f50ac81-c203-45a5-bd63-c2dc59f514de" />
-
 >1.Setup Project
 
 >- Create app.py as the main Flask entry point.
